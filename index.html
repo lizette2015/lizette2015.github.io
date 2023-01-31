@@ -107,7 +107,7 @@ Timestamp: <span id="p1" style="color:red; font-size:24pt">aaa</span>
 
 <button id="save" onclick="save()" >Save</button>
 
-<button id="saveImage" onclick="saveImage()">Save Image</button>
+<button id="saveImage" onclick="saveImage2()">Save Image</button>
 
 
 </div>
@@ -197,9 +197,11 @@ function save()
     // canvas.toDataURL() -- Uncaught DOMException: The operation is insecure.
     // https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
 
+    // en github esto si funciona !!
+
     const canvas = document.getElementById('canvas');
-const dataURL = canvas.toDataURL();
-console.log(dataURL);
+    const dataURL = canvas.toDataURL();
+    console.log(dataURL);
 }
 
 
@@ -208,57 +210,12 @@ console.log(dataURL);
 ////////////////////////////////////////////////////////////////////////////////
 
 
-function saveImage() {
-   let imageURL = "https://local.svg?1535749917189";
-  //let imageURL = "/local.svg?1535749917189";
-
-  downloadedImg = new Image();
-  downloadedImg.crossOrigin = "anonymous";
-  downloadedImg.addEventListener("load", imageReceived, false);
-  downloadedImg.src = imageURL;
-}
-
-function imageReceived() {
-  var canvas=document.querySelector('canvas');
-  const context = canvas.getContext("2d");
-
-  canvas.width = downloadedImg.width;
-  canvas.height = downloadedImg.height;
-
-  context.drawImage(downloadedImg, 0, 0);
-  imageBox.appendChild(canvas);
-
-  try {
-    var abc =  canvas.toDataURL("image/png");
-    console.log(abc);
-    localStorage.setItem("saved-image-example", abc);
-  } catch (err) {
-    console.error("Error: ${err}");
-  }
-}
 
 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-function save2()
-{
 
-   // data = canvas.toDataURL("image/png");
-
-    canvas.toBlob(
-  blob => {
-    const anchor = document.createElement('a');
-    anchor.download = 'my-file-name.jpg'; // optional, but you can give the file a name
-    anchor.href = URL.createObjectURL(blob);
-
-    anchor.click(); // ? magic!
-
-    URL.revokeObjectURL(anchor.href); // remove it from memory and save on memory! ??
-  },
-  'image/jpeg',
-  0.9,
-);
 
 
 
