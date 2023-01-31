@@ -2,11 +2,293 @@
 
 <html>
 <head>
-<meta http-equiv="refresh" content="0; url=papers.xml" />
+<title>Video Notetaking</title>
+
+<meta charset="UTF-8">
+
+
+<style type="text/css">
+body{font-size:11pt; font-family:Calibri,Verdana, sans-serif;}
+
+html, body, textarea {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 80%;
+}
+
+textarea {
+ vertical-align:middle;
+ /*background-color:gray;*/
+}
+
+
+
+#NW {
+    position:fixed;
+    width:50%;
+    height:50%;
+    top:0;
+    left:0;
+    /*background:orange*/
+}
+
+#NE {
+    position:fixed;
+    width:50%;
+    height:50%;
+    top:0;
+    left:50%;
+    /*background:blue*/
+}
+
+#SW {
+    position:fixed;
+    width:50%;
+    height:50%;
+    top:50%;
+    left:0;
+    /*background:green*/
+}
+
+#SE {
+    position:fixed;
+    width:50%;
+    height:50%;
+    top:50%;
+    left:50%;
+    /*background:red*/
+}
+
+#SE, #SW {
+    border-top:1px solid gray;
+}
+
+#NE, #SE {
+    border-left:1px solid gray;
+}
+
+</style>
 </head>
 <body>
 
 
+
+
+<!--------------------------- North West -------------------------------------->
+
+<div id="NW">
+<video controls width="100%" height="100%">
+    <source src="test.mp4" type="video/mp4"></source>
+  </video>
+
+</div>
+
+<!--------------------------- North East -------------------------------------->
+<div id="NE">
+
+<canvas crossOrigin="anonymous" id="canvas" width="100%" height="100%"></canvas>
+
+
+</div>
+
+<!--------------------------- South West -------------------------------------->
+
+<div id="SW">
+
+Timestamp: <span id="p1" style="color:red; font-size:24pt">aaa</span>
+
+<input type="button" onclick="playAt(10)" value="play at 10"></input>
+
+<input type="button" onclick="playAt(50)" value="play at 50"></input>
+
+<button id="snap" onclick="snap()">Snap Photo</button>
+
+<button id="save" onclick="save()" >Save</button>
+
+<button id="saveImage" onclick="saveImage()">Save Image</button>
+
+
+</div>
+
+<!--------------------------- South East -------------------------------------->
+
+<div id="SE">
+
+<textarea id="w3review" name="w3review" >
+At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+</textarea>
+
+</div>
+
+
+  <!-- start the script ... within that declare variables as follows... -->
+  <script>
+  var comment = {};
+  var video=document.querySelector('video');
+  var canvas=document.querySelector('canvas');
+
+  var context=canvas.getContext('2d');
+
+  canvas.crossOrigin = "anonymous";
+  canvas.setAttribute("crossOrigin", "anonymous");
+
+  var w,h,ratio;
+
+  //add loadedmetadata which will helps to identify video attributes
+
+  video.addEventListener('loadedmetadata', function() {
+
+    ratio = video.videoWidth/video.videoHeight;
+
+    w = video.videoWidth-100;
+    h = parseInt(w/ratio,10);
+
+    canvas.width = w;
+    canvas.height = h;
+
+    console.log("canvas width: " + w);
+    console.log("canvas height: " + h);
+
+  },false);
+
+
+
+  setInterval(function(){ document.getElementById("p1").textContent = video.currentTime; },1000);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+  function snap() {
+
+   // context.fillStyle = "white";
+   // context.fillRect(0,0,w,h);
+    context.drawImage(video,0,0,w,h);
+    comment.timestamp = video.currentTime;
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+
+
+  function playAt(time)
+{
+    video.currentTime = time;
+    video.play();
+
+    max = time + 10;
+
+    setInterval(function(){
+
+        if(video.currentTime>max){
+
+          video.pause();
+        }
+      },1000);
+
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+function save()
+{
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+    // canvas.toDataURL() -- Uncaught DOMException: The operation is insecure.
+    // https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
+
+    const canvas = document.getElementById('canvas');
+const dataURL = canvas.toDataURL();
+console.log(dataURL);
+}
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+function saveImage() {
+   let imageURL = "https://local.svg?1535749917189";
+  //let imageURL = "/local.svg?1535749917189";
+
+  downloadedImg = new Image();
+  downloadedImg.crossOrigin = "anonymous";
+  downloadedImg.addEventListener("load", imageReceived, false);
+  downloadedImg.src = imageURL;
+}
+
+function imageReceived() {
+  var canvas=document.querySelector('canvas');
+  const context = canvas.getContext("2d");
+
+  canvas.width = downloadedImg.width;
+  canvas.height = downloadedImg.height;
+
+  context.drawImage(downloadedImg, 0, 0);
+  imageBox.appendChild(canvas);
+
+  try {
+    var abc =  canvas.toDataURL("image/png");
+    console.log(abc);
+    localStorage.setItem("saved-image-example", abc);
+  } catch (err) {
+    console.error("Error: ${err}");
+  }
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+function save2()
+{
+
+   // data = canvas.toDataURL("image/png");
+
+    canvas.toBlob(
+  blob => {
+    const anchor = document.createElement('a');
+    anchor.download = 'my-file-name.jpg'; // optional, but you can give the file a name
+    anchor.href = URL.createObjectURL(blob);
+
+    anchor.click(); // ? magic!
+
+    URL.revokeObjectURL(anchor.href); // remove it from memory and save on memory! ??
+  },
+  'image/jpeg',
+  0.9,
+);
+
+
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+function saveImage2()
+{
+
+    const canvas = document.getElementById('canvas');
+
+canvas.toBlob((blob) => {
+  const newImg = document.createElement('img');
+  const url = URL.createObjectURL(blob);
+
+  newImg.onload = () => {
+    // no longer need to read the blob so it's revoked
+    URL.revokeObjectURL(url);
+  };
+
+  newImg.src = url;
+  document.body.appendChild(newImg);
+});
+
+}
+////////////////////////////////////////////////////////////////////////////////
+
+
+  </script>
 </body>
 
 </html>
