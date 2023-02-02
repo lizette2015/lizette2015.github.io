@@ -229,10 +229,22 @@ function procesaJson()
 
 function myFunction(item)
 {
-    console.log("INSIDE myFunction: \n\n" + item);
+    //console.log("INSIDE myFunction: \n\n" + item);
     const a = document.createElement("img");
     a.setAttribute("src",item.myImage);
+
+    const b = document.createElement("h3");
+    b.innerHTML = item.timestamp;
+
+    const c = document.createElement("p");
+    c.innerHTML = item.texto;
+
+    const sep = document.createElement("hr");
+
+    document.getElementById("SW").appendChild(b);
     document.getElementById("SW").appendChild(a);
+    document.getElementById("SW").appendChild(c);
+    document.getElementById("SW").appendChild(sep);
 }
   </script>
 </body>
