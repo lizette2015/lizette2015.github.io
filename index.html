@@ -100,6 +100,9 @@ Choose Video File: <input type="file" name="file[]" class="file_multi_video" acc
 
 Timestamp: <span id="p1" style="color:red; font-size:24pt">0 ms</span>
 
+<input type="button" onclick="procesaJson()" value="muestra entradas"></input>
+
+
 <!--
 
 <input type="button" onclick="playAt(10)" value="play at 10"></input>
@@ -110,6 +113,10 @@ Timestamp: <span id="p1" style="color:red; font-size:24pt">0 ms</span>
 
 
 
+
+</div>
+
+<div id="SW">
 
 </div>
 
@@ -211,6 +218,20 @@ function playAt(time)
       },1000);
 }
 ////////////////////////////////////////////////////////////////////////////////
+
+
+
+function procesaJson()
+{
+    console.log(entries);
+
+    //entries.forEach(myFunction);
+
+    a = document.createElement("img");
+    a.setAttribute("src",entries[0].myImage);
+    document.getElementById("SW").appendChild(a);
+
+}
   </script>
 </body>
 
