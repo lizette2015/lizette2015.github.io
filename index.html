@@ -224,13 +224,15 @@ function playAt(time)
 function procesaJson()
 {
     console.log(entries);
+    entries.forEach(myFunction);
+}
 
-    //entries.forEach(myFunction);
-
-    a = document.createElement("img");
-    a.setAttribute("src",entries[0].myImage);
+function myFunction(item)
+{
+    console.log("INSIDE myFunction: \n\n" + item);
+    const a = document.createElement("img");
+    a.setAttribute("src",item.myImage);
     document.getElementById("SW").appendChild(a);
-
 }
   </script>
 </body>
