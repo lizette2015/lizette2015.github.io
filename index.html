@@ -26,6 +26,8 @@ textarea {
 }
 
 
+canvas { border-width: 1px; border-color:blue;  background-color:gray;}
+
 
 #NW {
     position:fixed;
@@ -79,44 +81,34 @@ textarea {
 
 
 <!--------------------------- North West -------------------------------------->
-
 <div id="NW">
+
 <video controls width="100%" height="100%">
     <source src="test.mp4" id="video_here" type="video/mp4"></source>
   </video>
 
-
-
-
 </div>
 
-<!--------------------------- North East -------------------------------------->
-<div id="NE">
 
-<canvas crossOrigin="anonymous" id="canvas" width="100%" height="100%"></canvas>
-
-
-</div>
 
 <!--------------------------- South West -------------------------------------->
 
-<div id="SW">
+<div id="NE">
 
-<br><br>
 
- <input type="file" name="file[]" class="file_multi_video" accept="video/*">
+Choose Video File: <input type="file" name="file[]" class="file_multi_video" accept="video/*">
 
-Timestamp: <span id="p1" style="color:red; font-size:24pt">aaa</span>
+Timestamp: <span id="p1" style="color:red; font-size:24pt">0 ms</span>
+
+<!--
 
 <input type="button" onclick="playAt(10)" value="play at 10"></input>
 
-<input type="button" onclick="playAt(50)" value="play at 50"></input>
+-->
 
-<button id="snap" onclick="snap()">Snap Photo</button>
+<button id="save" onclick="addNote()">Add note</button>
 
-<button id="save" onclick="save()" >Save</button>
 
-<button id="saveImage" onclick="saveImage2()">Save Image</button>
 
 
 </div>
@@ -125,36 +117,36 @@ Timestamp: <span id="p1" style="color:red; font-size:24pt">aaa</span>
 
 <div id="SE">
 
+<canvas  crossOrigin="anonymous" id="canvas" width="100%" height="100%"></canvas>
+
 <textarea id="w3review" name="w3review" >
-At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+Write your text here ...
 </textarea>
 
 </div>
 
+<!------------------------------------------------------------->
 
-  <!-- start the script ... within that declare variables as follows... -->
   <script>
 
-
-  $(document).on("change", ".file_multi_video", function(evt) {
-  var $source = $('#video_here');
-  $source[0].src = URL.createObjectURL(this.files[0]);
-  $source.parent()[0].load();
-});
-
-  /* -----------------------------------------*/
-  var comment = {};
+  var entries    = new Array();
   var video=document.querySelector('video');
   var canvas=document.querySelector('canvas');
-
   var context=canvas.getContext('2d');
+  var w,h,ratio;
+
+  /* Pone el video que selecciono el usuario desde el archivo local */
+
+  $(document).on("change", ".file_multi_video", function(evt) {
+    var $source = $('#video_here');
+    $source[0].src = URL.createObjectURL(this.files[0]);
+    $source.parent()[0].load();
+  });
 
   canvas.crossOrigin = "anonymous";
   canvas.setAttribute("crossOrigin", "anonymous");
 
-  var w,h,ratio;
-
-  //add loadedmetadata which will helps to identify video attributes
+  /* actualiza la imagen en el canvas */
 
   video.addEventListener('loadedmetadata', function() {
 
@@ -171,25 +163,41 @@ At w3schools.com you will learn how to make a website. They offer free tutorials
 
   },false);
 
-
-
-  setInterval(function(){ document.getElementById("p1").textContent = video.currentTime; },1000);
-
+  setInterval(function(){ document.getElementById("p1").textContent = video.currentTime + " ms"; },1000);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  function snap() {
+function addNote()
+{
+    /*
+        Mi objeto necesita:
+        1. timestamp
+        2. screenshot (dataURL)
+        3. texto ingresado
+        4. liga para dar play en el video en el timestamp indicado
 
-   // context.fillStyle = "white";
-   // context.fillRect(0,0,w,h);
+
+        Luego necesito una lista de estos objetos
+        y exportarla a un PDF o epub o algo similar
+    */
+
     context.drawImage(video,0,0,w,h);
-    comment.timestamp = video.currentTime;
-  }
+    const canvas = document.getElementById('canvas');
+    const dataURL = canvas.toDataURL();
 
-  ////////////////////////////////////////////////////////////////////////////////
+    entry = {
+                myImage : dataURL,
+                timestamp : video.currentTime,
+                texto : "Texto inicial de la nota"
+            };
 
+    entries.push(entry);
+    console.log(entries);
+}
 
-  function playAt(time)
+////////////////////////////////////////////////////////////////////////////////
+
+function playAt(time)
 {
     video.currentTime = time;
     video.play();
@@ -197,73 +205,12 @@ At w3schools.com you will learn how to make a website. They offer free tutorials
     max = time + 10;
 
     setInterval(function(){
-
         if(video.currentTime>max){
-
           video.pause();
         }
       },1000);
-
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-function save()
-{
-    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
-    // canvas.toDataURL() -- Uncaught DOMException: The operation is insecure.
-    // https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
-
-    // en github esto si funciona !!
-
-    const canvas = document.getElementById('canvas');
-    const dataURL = canvas.toDataURL();
-    console.log(dataURL);
-}
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-
-function saveImage2()
-{
-
-    const canvas = document.getElementById('canvas');
-
-canvas.toBlob((blob) => {
-  const newImg = document.createElement('img');
-  const url = URL.createObjectURL(blob);
-
-  newImg.onload = () => {
-    // no longer need to read the blob so it's revoked
-    URL.revokeObjectURL(url);
-  };
-
-  newImg.src = url;
-  //document.body.appendChild(newImg);
-  document.getElementById('SE').appendChild(newImg);
-});
-
 }
 ////////////////////////////////////////////////////////////////////////////////
-
-
   </script>
 </body>
 
