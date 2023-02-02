@@ -114,7 +114,8 @@ Timestamp: <span id="p1" style="color:red; font-size:24pt">0 ms</span>
 
 -->
 
-
+<p>Falta el link al timestamp del video</p>
+<p>Mejorar el look and feel</p>
 
 
 
@@ -240,12 +241,18 @@ function myFunction(item)
     const b = document.createElement("h3");
     b.innerHTML = item.timestamp;
 
+    const liga = document.createElement("a");
+    liga.setAttribute("href","#");
+    liga.setAttribute("onclick","playAt(" + item.timestamp; + ")");
+
+
     const c = document.createElement("p");
     c.innerHTML = item.texto;
 
     const sep = document.createElement("hr");
 
     document.getElementById("SW").appendChild(b);
+    document.getElementById("SW").appendChild(liga);
     document.getElementById("SW").appendChild(a);
     document.getElementById("SW").appendChild(c);
     document.getElementById("SW").appendChild(sep);
