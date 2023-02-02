@@ -244,6 +244,7 @@ function myFunction(item)
     const liga = document.createElement("a");
     liga.setAttribute("href","#");
     liga.setAttribute("onclick","playAt(" + item.timestamp + ")");
+    liga.text("Play video at: " + item.timestamp);
 
 
     const c = document.createElement("p");
