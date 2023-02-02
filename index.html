@@ -100,8 +100,13 @@ Choose Video File: <input type="file" name="file[]" class="file_multi_video" acc
 
 Timestamp: <span id="p1" style="color:red; font-size:24pt">0 ms</span>
 
+<button id="save" onclick="addNote()">Add note</button>
+
+<br><br>
+
 <input type="button" onclick="procesaJson()" value="muestra entradas"></input>
 
+<input type="button" onclick="printElem('SW')" value="Print"></input>
 
 <!--
 
@@ -109,7 +114,6 @@ Timestamp: <span id="p1" style="color:red; font-size:24pt">0 ms</span>
 
 -->
 
-<button id="save" onclick="addNote()">Add note</button>
 
 
 
@@ -246,6 +250,27 @@ function myFunction(item)
     document.getElementById("SW").appendChild(c);
     document.getElementById("SW").appendChild(sep);
 }
+
+
+function printElem(elem)
+{
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write(document.getElementById(elem).innerHTML);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+}
+
   </script>
 </body>
 
