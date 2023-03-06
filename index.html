@@ -151,10 +151,12 @@ Write your text here ...
 
   /* Pone el video que selecciono el usuario desde el archivo local */
 
+
   $(document).on("change", ".file_multi_video", function(evt) {
     var $source = $('#video_here');
     $source[0].src = URL.createObjectURL(this.files[0]);
     $source.parent()[0].load();
+    console.log(this.files[0].mozFullPath);
   });
 
   canvas.crossOrigin = "anonymous";
@@ -249,13 +251,13 @@ function myFunction(item)
     liga.innerHTML = "Play video at: " + item.timestamp;
 
     // try to add a vlc-type link for PDF file
-
+    /*
     console.log("filepath: " + $source[0].src);
     filepath=$source[0].src;
     const liga2 = document.createElement("a");
     liga2.setAttribute("href","vlc://" + filepath + "?st=" + item.timestamp );
     liga2.innerHTML = "VLC Play video at: " + item.timestamp;
-
+    */
 
     const c = document.createElement("p");
     c.innerHTML = item.texto;
