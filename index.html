@@ -248,6 +248,14 @@ function myFunction(item)
     liga.setAttribute("onclick","playAt(" + item.timestamp + ")");
     liga.innerHTML = "Play video at: " + item.timestamp;
 
+    // try to add a vlc-type link for PDF file
+
+    console.log("filepath: " + $source[0].src);
+    filepath=$source[0].src;
+    const liga2 = document.createElement("a");
+    liga2.setAttribute("href","vlc://" + filepath + "?st=" + item.timestamp );
+    liga2.innerHTML = "VLC Play video at: " + item.timestamp;
+
 
     const c = document.createElement("p");
     c.innerHTML = item.texto;
