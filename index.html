@@ -84,7 +84,7 @@ canvas { border-width: 1px; border-color:blue;  background-color:gray;}
 <div id="NW">
 
 <video controls width="100%" height="100%">
-    <source src="test.mp4" id="video_here" type="video/mp4"></source>
+    <source src="test.mp4" id="filename" type="video/mp4"></source>
   </video>
 
 </div>
@@ -143,17 +143,17 @@ Write your text here ...
 
   <script>
 
-  var entries    = new Array();
-  var video=document.querySelector('video');
-  var canvas=document.querySelector('canvas');
-  var context=canvas.getContext('2d');
+  var entries   = new Array();
+  var video     = document.querySelector('video');
+  var canvas    = document.querySelector('canvas');
+  var context   = canvas.getContext('2d');
   var w,h,ratio;
 
   /* Pone el video que selecciono el usuario desde el archivo local */
 
 
   $(document).on("change", ".file_multi_video", function(evt) {
-    var $source = $('#video_here');
+    var $source = $('#filename');
     $source[0].src = URL.createObjectURL(this.files[0]);
     $source.parent()[0].load();
     console.log(this.files[0].mozFullPath);
@@ -278,7 +278,7 @@ function printElem(elem)
 
     mywindow.document.write('<html><head><title>' + document.title  + '</title>');
     mywindow.document.write('</head><body >');
-    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write('<h1>' + $('#filename').val()  + '</h1>');
     mywindow.document.write(document.getElementById(elem).innerHTML);
     mywindow.document.write('</body></html>');
 
