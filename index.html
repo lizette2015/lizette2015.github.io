@@ -277,7 +277,6 @@ function printElem(elem)
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
     mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-    mywindow.document.write('<script type="text/css">a { margin:5px; } </script>');
     mywindow.document.write('</head><body >');
     mywindow.document.write('<h1>' + $('#filename').val()  + '</h1>');
     mywindow.document.write(document.getElementById(elem).innerHTML);
