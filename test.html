@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <base target="_blank">
+    <title>Test</title>
+  </head>
+  <body>
+
+  <div id="result"></div>
+  <script>
+  if (typeof(Storage) !== "undefined") {
+  // Code for localStorage/sessionStorage.
+  alert("localStorage might work !!");
+
+  localStorage.setItem("lastname", "Smith456");
+
+// Retrieve
+document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+
+    
+} else {
+  // Sorry! No Web Storage support..
+}
+  </script>
+
+    
+
+  </body>
+</html>
