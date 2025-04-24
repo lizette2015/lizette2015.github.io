@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <base target="_blank">
+    <title>TradingView LightWeight Charts</title>
+
+  </head>
+  <body>
+
+  <script type="text/javascript">
+  let maxWidth =  window.screen.width -50;
+  let maxHeight =  window.screen.height -50;
+
+  </script>
+
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+<!--
+
+Investigar los pivotes de TradingView - Classic, Fibonacci, Camarilla, Woodie, DM
+
+style=0 -- bars
+style=1 -- candles
+style=2 -- line
+style=3 -- area
+style=4 -- renko
+style=5 -- kagi
+style=6 -- point and figure
+style=7 -- line break
+style=8 -- heikin ashi
+style=9 -- hollow candles
+
+studies
+    "STD;Bollinger_Bands",
+    "STD;EMA",
+    "STD;Pivot%1Points%1Standard",
+    "STD;MA%1Cross",
+    "STD;PSAR",
+    "STD;RSI"
+
+
+-->
+
+  <div class="tradingview-widget-copyright">
+  <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+  <span class="blue-text">Track all markets on TradingView</span></a>    </div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {
+  "width": "1800",
+  "height": "1000",
+  "symbol": "NYSE:BRK.B",
+  "timezone": "Etc/UTC",
+  "theme": "light",
+  "style": "1",
+  "locale": "en",
+  "gridColor": "rgba(159, 197, 232, 0.06)",
+  "withdateranges": true,
+  "range": "YTD",
+  "hide_side_toolbar": false,
+  "allow_symbol_change": true,
+  "details": true,
+  "hotlist": true,
+  "studies": [
+    "STD;RSI",
+    "STD;MACD",
+    "STD;Stochastic",
+    "STD;Supertrend"
+
+  ],
+  "support_host": "https://www.tradingview.com"
+
+  }
+  </script>
+
+
+  <!-- ELSA SCRIPT BEGIN -->
+<script type="text/javascript" >
+
+widget.activeChart().createAnchoredShape(
+{ x: 0.1, y: 0.3 },
+{ shape: "anchored_text", text: "This is an anchored drawing", overrides: { color: "green" }}
+);
+
+</script>
+<!-- ELSA SCRIPT END -->
+</div>
+<!-- TradingView Widget END -->
+  </body>
+</html>
